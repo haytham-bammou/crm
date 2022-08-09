@@ -2,6 +2,7 @@ const {User , Role} = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
+const { findUserById, getAllUsers, findRoleByNameOrId } = require('../repository/userRepositiry')
 
 const registerUser = asyncHandler(async (req, res) => {
     const {nom , prenom , email , avatar , adresse , password} = req.body
@@ -58,7 +59,7 @@ const addRoleToUser = asyncHandler(async (req , res) => {
 
 const getMe = asyncHandler(async (req  , res) => {
   const {id ,nom ,prenom ,email ,avatar ,adresse} = req.user  
-  res.json({id ,nom ,prenom ,email ,avatar ,adresse})
+  res.json({id ,nom ,prenom ,email ,avatar ,adresse , roles : req.roles})
 })
 
 const loginUser = asyncHandler(async (req , res) => {
@@ -81,6 +82,51 @@ const loginUser = asyncHandler(async (req , res) => {
     }
 })
 
+const fetchUser = asyncHandler( async (req, res) => {
+    const id = req.params.id
+    const user = await findUserById(id)
+    if(!user) {
+        res.status(404)
+        throw new Error('User not found')
+    }
+    res.json(user)
+}) 
+
+const fetchAllUsers = asyncHandler(async (req, res) => res.json(await getAllUsers()))
+
+const updateUser  = asyncHandler(async (req, res) =>{
+    const user = await findUserById(req.params.id)
+    if(!user) {
+        res.status(404)
+        throw new Error("User not found")
+    }
+    const role = await findRoleByNameOrId(req.body.role)
+    const roles = req.body.role && role && user.Roles.filter(rl => rl.id !== role.id ).length !==0 ?  [...user.Roles , role] : user.Roles
+    await user.update({...req.body , Roles:roles}) 
+    res.json(user)
+    
+})
+
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await findUserById(req.params.id)
+    if(!user) {
+        res.status(404)
+        throw new Error("user not found")
+    }
+    await user.destroy()
+    res.json({message: 'User deleted successfully.'})
+})
+
+const deleteRole = asyncHandler(async (req , res) => {
+    const role = await findRoleByNameOrId(req.params.id)
+    if(!role){
+        res.status(404)
+        throw new Error("Role not found")
+    }
+    await role.destroy()
+    res.json({message : 'role destroyed'})
+})
+
 const genToken = (id) => {
     return jwt.sign({id} , process.env.jwt_secret , {
         expiresIn : '30d'
@@ -88,4 +134,4 @@ const genToken = (id) => {
 }
 
 
-module.exports = {registerUser , saveRole , addRoleToUser , loginUser , getMe}
+module.exports = {registerUser , saveRole ,deleteRole , addRoleToUser , loginUser , getMe , fetchUser , fetchAllUsers , updateUser , deleteUser}

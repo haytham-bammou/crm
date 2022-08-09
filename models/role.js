@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsToMany(models.User , {through: "User_roles"})
     }
+    toJSON(){
+      return {name : this.get().name , id : this.get().id } 
+    }
   }
   Role.init({
     name: {
