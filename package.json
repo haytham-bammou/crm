@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "migrate": "sequelize db:drop & sequelize db:create & node ./migrations/migrate.js"
+    "migrate": "sequelize db:drop & sequelize db:create & node ./migrations/migrate.js",
+    "seed" : "sequelize db:migrate"
   },
   "author": "haytham,ihyadn",
   "license": "MIT",
