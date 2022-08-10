@@ -57,6 +57,19 @@ const addRoleToUser = asyncHandler(async (req , res) => {
     }
 
 })
+const deleteRoleToUser = asyncHandler(async (req , res) => {
+    const {userId , roleId} = req.body
+    const role = await Role.findOne({where : {id : roleId}})
+    const user = await User.findOne({where : {id: userId}})
+    if(!role || !user) {
+        res.status(404)
+        throw new Error("Role or User not found")
+    }else {
+        await user.removeRole(role)
+        res.json({message: `role : ${role.name} removed to user : ${user.nom}`})
+    }
+
+})
 
 const getMe = asyncHandler(async (req  , res) => {
   const {id ,nom ,prenom ,email ,avatar ,adresse} = req.user  
@@ -144,4 +157,4 @@ const genToken = (id) => {
 }
 
 
-module.exports = {registerUser , saveRole ,deleteRole ,fetchAllRoles, addRoleToUser , loginUser , getMe , fetchUser , fetchAllUsers , updateUser , deleteUser}
+module.exports = {registerUser , saveRole ,deleteRole ,fetchAllRoles, addRoleToUser , deleteRoleToUser,loginUser , getMe , fetchUser , fetchAllUsers , updateUser , deleteUser}
