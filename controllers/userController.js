@@ -3,10 +3,11 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const { findUserById, getAllUsers,getAllRoles, findRoleByNameOrId } = require('../repository/userRepositiry')
+const { findOrganismeByID } = require('../repository/organismeRepository')
 
 const registerUser = asyncHandler(async (req, res) => {
-    const {nom , prenom , email , avatar , adresse , password} = req.body
-    if(!nom  || !prenom || !email || !password || !adresse) {
+    const {nom , prenom , email , avatar , adresse , password , organismeId} = req.body
+    if(!nom  || !prenom || !email || !password || !adresse || !organismeId)  {
         res.status(400)
         throw new Error('Please add all fields')
     }
@@ -15,11 +16,17 @@ const registerUser = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('User already exists')
     }
+    const organisme = await findOrganismeByID(organismeId) 
+    if(! organisme){
+        res.status(404)
+        throw new Error('organisme not found')
+    }
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password , salt)
     const user = await User.create({
         nom , prenom , email , avatar , adresse , password : hashedPassword,
     })
+    await organisme.addUser(user)
     res.json({
         id : user.id,
         nom : user.nom,

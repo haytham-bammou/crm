@@ -1,5 +1,4 @@
 const express = require('express')
-const { addOrganisme } = require('../controllers/organismeController')
 const { registerUser, saveRole, addRoleToUser,fetchAllRoles, loginUser,deleteRoleToUser, getMe, fetchUser, fetchAllUsers, updateUser, deleteUser, deleteRole } = require('../controllers/userController')
 const { auth, admin } = require('../middleware/authMiddleware')
 const router = express.Router()
@@ -18,7 +17,5 @@ router.get('/:id' , auth , admin ,fetchUser)
 router.put('/:id' , auth , admin ,updateUser)
 router.delete('/:id' , auth , admin ,deleteUser)
 
-// admin routes tom manage organismes 
-router.post("/", auth , admin ,addOrganisme )
 
 module.exports = router

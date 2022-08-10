@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsToMany(models.Role, {through: "User_roles"})
+      this.belongsTo(models.Organisme)
     }
 
     toJSON(){
