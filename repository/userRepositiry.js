@@ -5,7 +5,7 @@ const findUserById = async (id) => {
 } 
 
 const getAllUsers = async () => await User.findAll({include : Role})
-
+const getAllRoles = async () => await Role.findAll();
 const updateUser  = async user => await User.update(user , {where : {id: user.id}})
 
 const findRoleByNameOrId = async role => {
@@ -14,4 +14,4 @@ const findRoleByNameOrId = async role => {
     return roleinDb
 }
 
-module.exports = {findUserById , getAllUsers , findRoleByNameOrId}
+module.exports = {findUserById , getAllUsers , findRoleByNameOrId,getAllRoles}

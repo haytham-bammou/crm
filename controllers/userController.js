@@ -2,7 +2,7 @@ const {User , Role} = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
-const { findUserById, getAllUsers, findRoleByNameOrId } = require('../repository/userRepositiry')
+const { findUserById, getAllUsers,getAllRoles, findRoleByNameOrId } = require('../repository/userRepositiry')
 
 const registerUser = asyncHandler(async (req, res) => {
     const {nom , prenom , email , avatar , adresse , password} = req.body
@@ -27,6 +27,7 @@ const registerUser = asyncHandler(async (req, res) => {
         email : user.email,
         avatar : user.avatar,
         adresse : user.adresse,
+        Roles:[],
         token : genToken(user.id)
     })
 
@@ -93,17 +94,26 @@ const fetchUser = asyncHandler( async (req, res) => {
 }) 
 
 const fetchAllUsers = asyncHandler(async (req, res) => res.json(await getAllUsers()))
-
+const fetchAllRoles = asyncHandler(async (req, res) => res.json(await getAllRoles()))
 const updateUser  = asyncHandler(async (req, res) =>{
     const user = await findUserById(req.params.id)
     if(!user) {
         res.status(404)
         throw new Error("User not found")
     }
+    console.log(req.body.role);
     const role = await findRoleByNameOrId(req.body.role)
     const roles = req.body.role && role && user.Roles.filter(rl => rl.id !== role.id ).length !==0 ?  [...user.Roles , role] : user.Roles
     await user.update({...req.body , Roles:roles}) 
-    res.json(user)
+    res.status(200).json({
+        id : user.id,
+        nom : user.nom,
+        prenom : user.prenom,
+        email : user.email,
+        avatar : user.avatar,
+        adresse : user.adresse,
+        Roles : Array.from(user.Roles).map(role => role.name),
+    })
     
 })
 
@@ -134,4 +144,4 @@ const genToken = (id) => {
 }
 
 
-module.exports = {registerUser , saveRole ,deleteRole , addRoleToUser , loginUser , getMe , fetchUser , fetchAllUsers , updateUser , deleteUser}
+module.exports = {registerUser , saveRole ,deleteRole ,fetchAllRoles, addRoleToUser , loginUser , getMe , fetchUser , fetchAllUsers , updateUser , deleteUser}

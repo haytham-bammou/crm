@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": null,
-    "database": "sequelize_test",
+    "password": "admin",
+    "database": "stagesi",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
