@@ -11,7 +11,4 @@ router.route("/:id").get(auth , admin ,getOrganismeById ).put(auth,admin,updateO
 router.get('/employees/:id' , auth , admin , getOrganismeEmployees)
 
 
-
-
-
 module.exports = router

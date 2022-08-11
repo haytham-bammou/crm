@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
      static associate(models) {
       this.hasMany(models.Phase)
+      this.hasMany(models.Image)
     }
   }
   Projet.init({

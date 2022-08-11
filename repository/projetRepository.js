@@ -1,5 +1,5 @@
-const {Projet , Phase}  = require('../models')
+const {Projet , Phase , Image}  = require('../models')
 
-const findProjetByID = async id => await Projet.findOne({where : {id},include : Phase})
+const findProjetByID = async id => await Projet.findOne({where : {id},include : [Phase , Image]})
 
 module.exports = {findProjetByID}

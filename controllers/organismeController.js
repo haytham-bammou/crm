@@ -56,7 +56,6 @@ const deleteOrganisme = asyncHandler(async (req , res) => {
     res.json({message : "organisme deleted"})
 })
 
-
 const getOrganismeEmployees = asyncHandler(async (req, res) => {
     const id = req.params.id
     const organisme = await Organisme.findOne({where : {id} , include : User})
