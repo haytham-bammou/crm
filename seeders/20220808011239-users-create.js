@@ -20,6 +20,17 @@ module.exports = {
     "createdAt" : "2022-08-08T00:41:35.108Z",
     "updatedAt" : "2022-08-08T00:41:35.108Z",
     }], {});
+    await queryInterface.bulkInsert('organismes', [{
+      "nom" : "organisme1",
+      "telephone" : "1",
+      "site":"organisme.com",
+      "logo" : "path",
+      "adress" : "fes narjiss c",
+      "RC":"rc",
+      "ICE":"ice",
+      "createdAt" : "2022-08-08T00:41:35.108Z",
+      "updatedAt" : "2022-08-08T00:41:35.108Z",
+      }], {});
     await queryInterface.bulkInsert('roles', [{
     "name" : "ROLE_ADMIN",
     "createdAt" : "2022-08-08T00:41:35.108Z",

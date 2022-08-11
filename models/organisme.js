@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.User)
+      this.hasMany(models.Projet)
     }
   }
   Organisme.init({
