@@ -24,6 +24,7 @@ const getAllOrganismes = asyncHandler(async (req, res) => {
     res.json(organismes)
 })
 
+
 const getOrganismeById = asyncHandler(async (req, res) => { 
     const organisme = await findOrganismeByID(req.params.id)
     if(!organisme) {
@@ -32,6 +33,7 @@ const getOrganismeById = asyncHandler(async (req, res) => {
     }
     res.json(organisme)
 })
+
 
 const updateOrganisme = asyncHandler(async (req, res) => {
     const organisme = await findOrganismeByID(req.params.id)
@@ -42,6 +44,7 @@ const updateOrganisme = asyncHandler(async (req, res) => {
     await organisme.update({...req.body})
     res.json(organisme)
 })
+
 
 const deleteOrganisme = asyncHandler(async (req , res) => {
     const organisme = await findOrganismeByID(req.params.id)
@@ -54,4 +57,14 @@ const deleteOrganisme = asyncHandler(async (req , res) => {
 })
 
 
-module.exports = {addOrganisme , getAllOrganismes , getOrganismeById , updateOrganisme , deleteOrganisme}
+const getOrganismeEmployees = asyncHandler(async (req, res) => {
+    const id = req.params.id
+    const organisme = await Organisme.findOne({where : {id} , include : User})
+    if(!organisme) {
+        res.status(404)
+        res.json({message : "Organisme not found"})
+    }
+    res.json(organisme.Users)
+})
+
+module.exports = {addOrganisme , getAllOrganismes , getOrganismeById , updateOrganisme , deleteOrganisme , getOrganismeEmployees}
