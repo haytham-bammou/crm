@@ -4,7 +4,7 @@ const { findOrganismeByID } = require('../repository/organismeRepository')
 
 
 const addOrganisme = asyncHandler(async (req, res) => {
-    const {nom , adress , telephone} = req.body 
+    const {nom , adress , telephone,logo} = req.body 
     if(!nom || !adress || !telephone) {
         res.status(400)
         throw new Error('please fill required fields')
