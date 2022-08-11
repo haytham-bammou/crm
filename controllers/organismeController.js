@@ -53,5 +53,14 @@ const deleteOrganisme = asyncHandler(async (req , res) => {
     res.json({message : "organisme deleted"})
 })
 
+const getOrganismeEmployees = asyncHandler(async (req, res) => {
+    const organisme = await findOrganismeByID(req.params.id)
+    if(!organisme) {
+        res.status(404)
+        throw new Error("organisme not found")
+    }
+    res.json(organisme.Users)
 
-module.exports = {addOrganisme , getAllOrganismes , getOrganismeById , updateOrganisme , deleteOrganisme}
+})
+
+module.exports = {addOrganisme , getAllOrganismes , getOrganismeById , updateOrganisme , deleteOrganisme , getOrganismeEmployees}

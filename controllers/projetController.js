@@ -1,4 +1,4 @@
-const {Projet, Image } = require('../models')
+const {Projet, Image , Phase } = require('../models')
 const asyncHandler = require('express-async-handler')
 const { findProjetByID } = require('../repository/projetRepository')
 const { findOrganismeByID } = require('../repository/organismeRepository')
@@ -14,7 +14,7 @@ const addProjet = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('projet already exists')
     }
-    const organisme = await findOrganismeByID(organismeId) 
+    const organisme = await findOrganismeByID(organismeId)
     if(! organisme){
         res.status(404)
         throw new Error('organisme not found')
@@ -26,13 +26,12 @@ const addProjet = asyncHandler(async (req, res) => {
         projetCreated.addImage(image)
     })
     await organisme.addProjet(projetCreated)
-    
     res.json(projetCreated)
 })
 
 
 const getAllProjets = asyncHandler(async (req, res) => {
-    const projets = await Projet.findAll({include : {Image}})
+    const projets = await Projet.findAll({include : [Image , Phase]})
     res.json(projets)
 })
 
@@ -66,6 +65,7 @@ const deleteProjet = asyncHandler(async (req , res) => {
         res.status(404)
         throw new Error('Projet not found')
     }
+    projet.Images.forEach(async image => await image.destroy())
     await projet.destroy()
     res.json({message : "projet deleted"})
 })
