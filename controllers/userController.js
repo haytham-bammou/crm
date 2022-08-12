@@ -34,6 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
         email : user.email,
         avatar : user.avatar,
         adresse : user.adresse,
+        OrganismeId:user.OrganismeId,
         Roles:[],
         token : genToken(user.id)
     })
@@ -132,6 +133,7 @@ const updateUser  = asyncHandler(async (req, res) =>{
         email : user.email,
         avatar : user.avatar,
         adresse : user.adresse,
+        OrganismeId:user.OrganismeId,
         Roles : Array.from(user.Roles).map(role => role.name),
     })
     

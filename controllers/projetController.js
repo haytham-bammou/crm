@@ -69,7 +69,7 @@ const updateProjet = asyncHandler(async (req, res) => {
     description: projet.description,
     site: projet.site,
     OrganismeId: projet.OrganismeId,
-    Images: req.body.images,
+    Images: req.body.images.concat(projet.Images),
   });
 });
 const removeProjects = asyncHandler(async (req, res) => {
