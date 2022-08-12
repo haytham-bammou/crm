@@ -44,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       allowNull : false,
     },
+    telephone: {
+      type : DataTypes.STRING,
+    },
   }, {
     sequelize,
     modelName: 'User',

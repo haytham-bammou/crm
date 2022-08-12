@@ -37,6 +37,7 @@ const getPhaseById = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Phase not found')
     }
+    console.log(phase);
     res.json(phase)
 })
 

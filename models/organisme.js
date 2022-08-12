@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       allowNull : false
     },
+    description:DataTypes.TEXT,
     site: DataTypes.STRING,
     logo: DataTypes.TEXT,
     ICE: DataTypes.STRING,
