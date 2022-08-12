@@ -12,8 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsToMany(models.Role, {through: "User_roles"})
       this.belongsTo(models.Organisme)
+      this.hasMany(models.Showroom)
     }
-
+   
     toJSON(){
       return {...this.get() ,password : undefined,}
     }
@@ -37,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull : false,
     },
     avatar: {
-      type : DataTypes.STRING,
+      type : DataTypes.TEXT,
     },
     adresse: {
       type : DataTypes.STRING,

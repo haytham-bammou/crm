@@ -1,5 +1,5 @@
-const {Phase , User}  = require('../models')
+const {Showroom , User}  = require('../models')
 
-const findPhaseByID = async id => await Phase.findOne({where : {id}})
+const findPhaseByID = async id => await Showroom.findOne({where : {id}})
 
 module.exports = {findPhaseByID}

@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull : false
     },
     site: DataTypes.STRING,
-    logo: DataTypes.STRING,
+    logo: DataTypes.TEXT,
     ICE: DataTypes.STRING,
     RC: DataTypes.STRING
   }, {
